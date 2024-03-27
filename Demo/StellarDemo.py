@@ -86,7 +86,11 @@ PROJECT_ID = 'your_project_id'
 CLIENT_ID = 'your_client_id'
 CLIENT_SECRET = 'your_client_secret'
 CALLBACK_URL = 'http://localhost:8080'
-
+#Change to false if you want to use an access token instead of OAuth
+oauth = False
+#Change to false if you want to authenticate every time you run the script
+persistent = True
+ACCESS_TOKEN = 'your_access_token'
 
 class SensorData:
     def __init__(self, chip_id, chip_version, temperature, pressure, measure_date):
@@ -147,7 +151,7 @@ def print_error_message(response):
 
 def main():
     global table_id
-    data_response = stellar_ds.data.add('test', table_id, read_sensor_data())
+    data_response = stellar_ds.data.add(PROJECT_ID, table_id, read_sensor_data())
     if data_response.status_code != 201 or not data_response.is_success:
         print_error_message(data_response)
     else:
@@ -160,8 +164,11 @@ def main():
         print(f"Measure Date: {data_response.data[0].measure_date}")
     time.sleep(10)
 
-stellar_ds = StellarDS(True, True)
-stellar_ds.oauth(CLIENT_ID, CALLBACK_URL, CLIENT_SECRET)
+stellar_ds = StellarDS(is_oauth=oauth, is_persistent=persistent)
+if oauth == False:
+    stellar_ds.access_token(ACCESS_TOKEN)
+else:
+    stellar_ds.oauth(CLIENT_ID, CALLBACK_URL, CLIENT_SECRET)
 ensure_table_exists(stellar_ds)
 
 while __name__ == "__main__":
