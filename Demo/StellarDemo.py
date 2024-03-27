@@ -82,9 +82,9 @@ def readBmp180(addr=DEVICE):
 
     return (temperature/10.0,pressure/100.0)
 
-PROJECT_ID = '4e15dbce-1e12-4859-3256-08dc3c3b3f31'
-CLIENT_ID = '60BE5B7D-8521-4B20-15E8-08DC426E3FD7'
-CLIENT_SECRET = 'b5acb4fe4e2d63c6d177ccf9963b98c8aa1b3af4195367a847c1f87528e9b245'
+PROJECT_ID = 'your_project_id'
+CLIENT_ID = 'your_client_id'
+CLIENT_SECRET = 'your_client_secret'
 CALLBACK_URL = 'http://localhost:8080'
 
 
